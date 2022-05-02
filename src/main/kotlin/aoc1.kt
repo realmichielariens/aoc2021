@@ -15,7 +15,7 @@ fun countStepdowns(steps: List<Int>):Int{
 
 fun <T> createSublists(list: List<T>, sublistSize: Int): List<List<T>>{
     val res = emptyList<List<T>>().toMutableList()
-    for((index, _) in list.withIndex()) {
+    for(index in list.indices) {
         if(index <= list.size - sublistSize)
         res.add(list.subList(index, index + sublistSize))
     }

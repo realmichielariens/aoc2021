@@ -24,3 +24,9 @@ tasks.test {
 tasks.withType<KotlinCompile>() {
     kotlinOptions.jvmTarget = "1.8"
 }
+
+//tasks.withType<Test> {
+//    minHeapSize = "512m"
+//    maxHeapSize = "8G"
+//    jvmArgs = listOf("-XX:MaxPermSize=8G")
+//}
