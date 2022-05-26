@@ -195,17 +195,16 @@ internal class aoc1Test {
         val inputs = rawInputs.map { s -> s.split(' ').filter { s -> s.isNotEmpty() }}
         val outputs = rawOutputs.map { s -> s.split(' ').filter { s-> s.isNotEmpty() }}
 
-        val possibleSolutions = inputs.map{input -> input.map { s -> Pair(s, codeLengthToDisplayValueMap[s.length]!!) }.sortedBy { pair -> pair.first.length }}
+        val possibleDigitsPerCode = inputs.map{ input -> input.map { s -> Pair(s, codeLengthToDisplayValueMap[s.length]!!) }.sortedBy { pair -> pair.first.length }}
 
-        val testRow = possibleSolutions[0]
+        val testRow = possibleDigitsPerCode[0]
         for((inputString, digits) in testRow){
             val inputs = inputString.split("").filter { s -> s.isNotEmpty() }
-            var constraints = "abcdef".split("").map { s -> Pair(s, null) }
-            for(output in digits){
-                val digits = defaultDisplayMap[output]!!
+            for(outputDigit in digits){
+                val segments = defaultDisplayMap[outputDigit]!!
+                val possibleCombinations = createPossibleCombinations(inputs, segments)
 
-
-                println()
+                println(possibleCombinations)
 
                 // c d -> c f
                 // c-c d-f | c-f d-c
@@ -226,6 +225,19 @@ internal class aoc1Test {
 
     }
 
+    fun createPossibleCombinations(inputs: List<String>, segments: List<String>): List<Map<String, String>> {
+        val results = mutableListOf<Map<String,String>>()
+        for(i in segments.indices){
+            val shifted = segments.rotate(i)
+            results.add(inputs.zip(shifted).toMap())
+        }
+        return results
+    }
 
 
 }
+
+private fun <E> List<E>.rotate(i: Int): List<E> {
+    return this.subList(i,this.size).plus(this.subList(0, i))
+}
+
